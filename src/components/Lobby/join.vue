@@ -12,6 +12,7 @@
 
 <script>
 import io from 'socket.io-client';
+import { mapState } from 'vuex';
 
 
 export default {
@@ -21,9 +22,12 @@ export default {
       name: null,
       statusType: 'user',
       statusMessage: 'Enter the lobby id and your name.',
-      player: {},
     };
   },
+
+  computed: mapState({
+    player: state => state.player,
+  }),
 
   mounted() {
     this.socket = io();
@@ -40,7 +44,7 @@ export default {
       const { lobbyId, name } = this;
 
       this.$socket.emit('player_connect', { lobbyId, name }, (player) => {
-        this.player = player;
+        this.$store.commit('set_player', player);
         this.statusType = 'waiting';
         this.statusMessage = player.isHost ? 'All players ready?' : 'Waiting for the host to start the game!';
       });

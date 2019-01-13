@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>Mastermind</h1>
+    <h1></h1>
   </header>
 </template>
 
