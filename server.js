@@ -4,7 +4,6 @@ const http = require('http');
 const express = require('express');
 const history = require('connect-history-api-fallback');
 
-const gameConnect = require('./gameConnection.js');
 const Game = require('./src/game/index');
 
 const app = express();
