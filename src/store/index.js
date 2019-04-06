@@ -10,6 +10,11 @@ export default {
         [1, 1, 1, 1],
         [0, 0, 0, 0],
       ],
+      hints: [
+        ['n', 'b', 'w', 'b'],
+        ['w', 'n', 'w', 'b'],
+        ['n', 'n', 'w', 'n'],
+      ],
       currentMove: [],
       name: 'matt',
       isHost: false,
