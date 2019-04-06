@@ -3,8 +3,15 @@
     "ecmaVersion": 9,
     "sourceType": "module"
   },
-  "extends": ["airbnb-base"],
+  "extends": ["airbnb"],
+  "plugins": [
+    "react-hooks"
+  ],
   "globals": {
     "window": false
+  },
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }
