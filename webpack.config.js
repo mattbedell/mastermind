@@ -1,6 +1,5 @@
 const { resolve, join } = require('path');
 
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -22,18 +21,13 @@ const config = {
         ],
       },
       {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-      },
-      {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader'],
+        use: ['css-loader'],
       },
     ],
   },
   plugins: [
     new CleanWebpackPlugin(['dist'], { watch: true }),
-    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
     })

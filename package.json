@@ -12,29 +12,23 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "connect-history-api-fallback": "^1.5.0",
+    "connect-history-api-fallback": "^1.6.0",
     "express": "^4.16.4",
     "socket.io": "^2.2.0",
-    "socket.io-client": "^2.2.0",
-    "vue": "^2.5.21",
-    "vue-router": "^3.0.2",
-    "vuex": "^3.0.1"
+    "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.3",
-    "babel-loader": "^8.0.4",
-    "clean-webpack-plugin": "^1.0.0",
-    "css-loader": "^2.1.0",
-    "eslint": "^5.11.1",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "babel-loader": "^8.0.5",
+    "clean-webpack-plugin": "^1.0.1",
+    "css-loader": "^2.1.1",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-loader": "^2.1.1",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-vue": "^5.0.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": "^2.16.0",
     "html-webpack-plugin": "^3.2.0",
-    "vue-loader": "^15.4.2",
-    "vue-template-compiler": "^2.5.21",
-    "webpack": "^4.28.2",
-    "webpack-cli": "^3.1.2"
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   }
 }
