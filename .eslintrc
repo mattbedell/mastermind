@@ -8,7 +8,8 @@
     "react-hooks"
   ],
   "globals": {
-    "window": false
+    "window": false,
+    "document": false
   },
   "rules": {
     "react-hooks/rules-of-hooks": "error",
