@@ -3,7 +3,7 @@ const { resolve, join } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const APP_ENTRY = resolve('src', 'index.js');
+const APP_ENTRY = resolve('src', 'index.jsx');
 const HTML_TEMPLATE_ENTRY = resolve('src', 'index.html');
 const EMIT_DIR = resolve('dist');
 
@@ -14,7 +14,10 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
+        resolve: {
+          extensions: ['.js', '.jsx'],
+        },
         use: [
           { loader: 'babel-loader'},
           { loader: 'eslint-loader'},
