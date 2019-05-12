@@ -1,10 +1,9 @@
 const { resolve, join } = require('path');
 
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const APP_ENTRY = resolve('src', 'index.js');
+const APP_ENTRY = resolve('src', 'index.jsx');
 const HTML_TEMPLATE_ENTRY = resolve('src', 'index.html');
 const EMIT_DIR = resolve('dist');
 
@@ -15,25 +14,23 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
+        resolve: {
+          extensions: ['.js', '.jsx'],
+        },
         use: [
           { loader: 'babel-loader'},
           { loader: 'eslint-loader'},
         ],
       },
       {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-      },
-      {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader'],
+        use: ['css-loader'],
       },
     ],
   },
   plugins: [
     new CleanWebpackPlugin(['dist'], { watch: true }),
-    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
     })
