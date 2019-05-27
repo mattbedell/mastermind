@@ -1,5 +1,7 @@
+const uuidv4 = require('uuid/v4');
+
 // https://stackoverflow.com/a/1349426
-module.exports = function getId(idLength, existingIds) {
+function getLobbyName(idLength) {
   const allLeters = 'abcdefghijklmnopqrstuvwkyz';
   let result = '';
 
@@ -7,9 +9,14 @@ module.exports = function getId(idLength, existingIds) {
     result += allLeters.charAt(Math.floor(Math.random() * allLeters.length));
   }
 
-  if (existingIds.includes(result)) {
-    return getId(idLength, existingIds);
-  }
-
   return result.toUpperCase();
+}
+
+function getLobbyId() {
+  return uuidv4();
+}
+
+module.exports = {
+  getLobbyName,
+  getLobbyId,
 };
