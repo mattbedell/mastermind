@@ -1,5 +1,6 @@
 const { resolve, join } = require('path');
 
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -33,12 +34,20 @@ const config = {
     new CleanWebpackPlugin(['dist'], { watch: true }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin(),
   ],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   output: {
     filename: '[name].[hash].js',
     path: EMIT_DIR,
-    publicPath: '/dist/',
+    publicPath: '/',
+  },
+  devServer: {
+    contentBase: EMIT_DIR,
+    hot: true,
   },
 }
 
