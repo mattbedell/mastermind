@@ -1,3 +1,11 @@
-module.exports = function getId(lobbyId) {
-  return `${lobbyId}-${(Math.random() * 5).toString(36).replace('.', '')}`;
+const uuidv5 = require('uuid/v5');
+
+
+function getUserId(username, gameId) {
+  return uuidv5(username, gameId);
+}
+
+
+module.exports = {
+  getUserId,
 };
