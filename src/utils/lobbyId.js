@@ -29,7 +29,7 @@ function getValidLobbyName(idLength) {
         redisClient.sadd('join_lobby_names', lobbyName).then((numAdded) => {
           // if > 0 elements were added to the set of active lobby codes, the current code is safe to use
           if (numAdded) {
-            resolve(numAdded);
+            resolve(lobbyName);
           // lobby code was added between the time of checking the set and adding it to the set, so generate a new one
           } else {
             resolve(getValidLobbyName(idLength));
