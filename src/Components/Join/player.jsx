@@ -4,7 +4,7 @@ import useConnectToSockNamespace from '../Hooks/socketConnect';
 
 import Button from '../Button';
 
-const Join = () => {
+const JoinPlayer = () => {
   const [lobbyCode, setLobbyCode] = useState('');
   /* eslint-disable no-unused-vars */
   const [codeLength, setCodeLength] = useState(1000);
@@ -54,4 +54,4 @@ const Join = () => {
 // Join.propTypes = {
 // };
 
-export default Join;
+export default JoinPlayer;

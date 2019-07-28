@@ -4,7 +4,15 @@ import useConnectToSockNamespace from '../Hooks/socketConnect';
 
 
 const Lobby = () => {
-  const socket = useConnectToSockNamespace('game');
+  const socket = useConnectToSockNamespace('join');
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit('init_game_lobby', ({ lobbyName, gameId }) => {
+
+      });
+    }
+  }, [socket]);
   return (
     <div></div>
   );
