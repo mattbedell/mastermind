@@ -1,49 +1,56 @@
 import React, { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { updateConnection } from '../../Store/actions/connection';
 import useConnectToSockNamespace from '../Hooks/socketConnect';
 
 import Button from '../Button';
 
 const JoinPlayer = () => {
-  const [lobbyCode, setLobbyCode] = useState('');
+  const [lobbyName, setLobbyName] = useState('');
   /* eslint-disable no-unused-vars */
   const [codeLength, setCodeLength] = useState(1000);
   const [error, setError] = useState(null);
+  const gameIdStore = useSelector(state => state.connection.gameId);
   const socket = useConnectToSockNamespace('join');
 
-  const isValid = lobbyCode.length === codeLength;
+  const isValid = lobbyName.length === codeLength;
+  const dispatch = useDispatch();
   useEffect(() => {
     if (socket) {
       socket.emit('get_lobby_code_length', (lobbyCodeLength) => {
         setCodeLength(lobbyCodeLength);
       });
     }
-  }, [socket]);
+  }, [socket, dispatch]);
 
   return (
     <div>
       <div>
         <input
           type="text"
-          value={lobbyCode}
-          onChange={e => setLobbyCode(e.target.value.toUpperCase())}
+          value={lobbyName}
+          onChange={e => setLobbyName(e.target.value.toUpperCase())}
         />
         <Button
-          disabled={!isValid}
+          disabled={!isValid || !!gameIdStore}
           handleClick={(e) => {
             setError(null);
             if (socket) {
-              socket.emit('get_game_id', { lobbyCode }, ({ gameId }, err) => {
+              socket.emit('get_game_id', { lobbyName }, ({ gameId }, err) => {
                 if (err) {
                   setError(err);
+                  return;
                 }
-                // redux store gameId
+
+                dispatch(updateConnection({ gameId, lobbyName }));
                 // cookie store gameId for dropped connection recovery?
               });
             }
           }}
         >
-          JOIN
+          FIND LOBBY
         </Button>
       </div>
       <span>{error}</span>
