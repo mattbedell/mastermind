@@ -9,7 +9,6 @@ import Button from '../Button';
 
 const JoinPlayer = () => {
   const [lobbyName, setLobbyName] = useState('');
-  /* eslint-disable no-unused-vars */
   const [codeLength, setCodeLength] = useState(1000);
   const [error, setError] = useState(null);
   const gameIdStore = useSelector(state => state.connection.gameId);
@@ -35,7 +34,7 @@ const JoinPlayer = () => {
         />
         <Button
           disabled={!isValid || !!gameIdStore}
-          handleClick={(e) => {
+          handleClick={() => {
             setError(null);
             if (socket) {
               socket.emit('get_game_id', { lobbyName }, ({ gameId }, err) => {
