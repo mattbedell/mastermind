@@ -14,15 +14,25 @@ module.exports = function connect(server, lobbyCodeLength = 3) {
 
   joinIo.on('connection', async (socket) => {
     console.log(socket.id, 'connected!');
-    socket.on('get_game_id', async ({ lobbyCode }, cb) => {
+    // player connecting to game
+    socket.on('get_game_id', async ({ lobbyName }, cb) => {
       // TODO: santize this dammit!
-      const gameId = await promiseClient.get(`${lobbyCode}`);
-      const err = gameId ? null : `Lobby: ${lobbyCode} not found!`;
-      cb({ lobbyCode, gameId }, err);
+      const gameId = await promiseClient.get(`${lobbyName}`);
+      const err = gameId ? null : `Lobby: ${lobbyName} not found!`;
+      cb({ lobbyName, gameId }, err);
     });
+
 
     socket.on('get_lobby_code_length', (cb) => {
       cb(lobbyCodeLength);
+    });
+
+    // initialize lobby
+    socket.on('init_game_lobby', async (cb) => {
+      const lobbyName = await getValidLobbyName(lobbyCodeLength);
+      const gameId = await bindLobbyNameToGameId(lobbyName);
+      socket.join(`${gameId}-lobby`);
+      cb({ lobbyName, gameId });
     });
 
     socket.on('disconnect', () => {
@@ -32,13 +42,7 @@ module.exports = function connect(server, lobbyCodeLength = 3) {
 
   gameIo.on('connection', (socket) => {
     console.log(socket.id, 'connected!');
-    socket.on('join_game_lobby', async (cb) => {
-      const lobbyName = await getValidLobbyName(lobbyCodeLength);
-      const gameId = await bindLobbyNameToGameId(lobbyName);
-      socket.join(gameId);
-      socket.join(`${gameId}-lobby`);
-      cb({ lobbyName, gameId });
-    });
+
 
     // TODO: sanitize!!!
     socket.on('join_game_player', ({ gameId, userName }, cb) => {

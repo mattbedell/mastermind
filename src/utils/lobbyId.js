@@ -17,39 +17,29 @@ function getGameId() {
   return uuidv4();
 }
 
-// This feels like a timebomb waiting to explode, make something smarter to create and recycle
-// lobby codes
-function getValidLobbyName(idLength) {
-  return new Promise((resolve) => {
-    const lobbyName = getLobbyName(idLength);
-    redisClient.sismember('join_lobby_names', lobbyName).then((isMember) => {
-      if (isMember) {
-        resolve(getValidLobbyName(idLength));
-      } else {
-        redisClient.sadd('join_lobby_names', lobbyName).then((numAdded) => {
-          // if > 0 elements were added to the set of active lobby codes, the current code is safe to use
-          if (numAdded) {
-            resolve(numAdded);
-          // lobby code was added between the time of checking the set and adding it to the set, so generate a new one
-          } else {
-            resolve(getValidLobbyName(idLength));
-          }
-        });
-      }
-    });
-  });
+async function getValidLobbyName(idLength) {
+  const lobbyName = getLobbyName(idLength);
+  const isValidName = redisClient.sadd('join_lobby_name', lobbyName);
+
+  // if > 0 elements added, lobbyName is not in use so safe to use
+  if (isValidName) {
+    return lobbyName;
+  }
+
+  // lobby name is already in use so generate another with an expanded range of characters
+  return getValidLobbyName(idLength + 1);
 }
 
 // bind short lobby code to game uuid so players can join a game with a short lobby name
-function bindLobbyNameToGameId(lobbyName) {
+async function bindLobbyNameToGameId(lobbyName) {
   const gameId = getGameId();
-  return redisClient.set(lobbyName, gameId).then((ok) => {
-    if (ok) {
-      return gameId;
-    }
+  const isOk = await redisClient.set(lobbyName, gameId);
 
-    throw new Error('Lobby name not bound to id');
-  });
+  if (isOk) {
+    return gameId;
+  }
+
+  throw new Error('Lobby name not bound to id');
 }
 
 function unbindAndReleaseLobbyName(lobbyName) {
